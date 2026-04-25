@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Sessions - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+    <li><a th:href="@{/admin/sessions}" style="color:var(--white)">Sessions</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>MANAGE SESSIONS</h2>
+  </div>
+
+  <div class="card" style="padding:32px; margin-bottom:32px;">
+    <h2 style="font-size:1.3rem; margin-bottom:24px;">Add New Session</h2>
+    <form method="post" th:action="@{/admin/sessions/add}">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Movie</label>
+          <select name="movieId">
+            <option th:each="m : ${movies}" th:value="${m.id}" th:text="${m.title}">Movie</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Hall</label>
+          <input type="text" name="hall" placeholder="Hall 1" required>
+        </div>
+        <div class="form-group">
+          <label>Start Time</label>
+          <input type="datetime-local" name="startTime" required>
+        </div>
+        <div class="form-group">
+          <label>Price (KZT)</label>
+          <input type="number" name="price" placeholder="1500" required>
+        </div>
+        <div class="form-group">
+          <label>Total Seats</label>
+          <input type="number" name="seats" placeholder="50" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Add Session</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Movie</th>
+        <th>Hall</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th>Seats</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="s : ${sessions}">
+        <td th:text="${s.id}">1</td>
+        <td th:text="${s.movie.title}">Movie</td>
+        <td th:text="${s.hall}">Hall 1</td>
+        <td th:text="${#temporals.format(s.startTime, 'dd MMM HH:mm')}">Date</td>
+        <td th:text="${s.price} + ' KZT'">1500</td>
+        <td th:text="${s.availableSeats} + '/' + ${s.totalSeats}">50/50</td>
+        <td>
+          <a th:href="@{/admin/sessions/delete/{id}(id=${s.id})}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

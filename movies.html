@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Movies - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/movies}" style="color:var(--white)">Movies</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/booking/my}">My Bookings</a></li>
+    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/dashboard}">Admin</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>NOW SHOWING</h2>
+  </div>
+
+  <div class="grid-movies">
+    <div class="card" th:each="movie : ${movies}">
+      <div class="card-poster">
+        <span th:text="${movie.genre}">Genre</span>
+      </div>
+      <div class="card-body">
+        <div class="tag" th:text="${movie.genre}">Genre</div>
+        <h3 th:text="${movie.title}">Title</h3>
+        <p th:text="${movie.description}">Description</p>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:var(--gray); font-size:0.8rem;" th:text="${movie.duration} + ' min'">120 min</span>
+          <a th:href="@{/booking/movie/{id}(id=${movie.id})}" class="btn btn-primary btn-sm">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Bookings - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/movies}">Movies</a></li>
+    <li><a th:href="@{/booking/my}" style="color:var(--white)">My Bookings</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>MY BOOKINGS</h2>
+    <a th:href="@{/movies}" class="btn btn-outline btn-sm">Browse Movies</a>
+  </div>
+
+  <div th:if="${#lists.isEmpty(bookings)}" style="text-align:center; padding:60px; color:var(--gray);">
+    <p style="font-family:'Bebas Neue',cursive; font-size:2rem; color:var(--border);">No bookings yet</p>
+    <a th:href="@{/movies}" class="btn btn-primary" style="margin-top:16px;">Book Now</a>
+  </div>
+
+  <table th:if="${!#lists.isEmpty(bookings)}">
+    <thead>
+      <tr>
+        <th>Movie</th>
+        <th>Date</th>
+        <th>Hall</th>
+        <th>Seats</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="b : ${bookings}">
+        <td th:text="${b.session.movie.title}">Movie</td>
+        <td th:text="${#temporals.format(b.session.startTime, 'dd MMM HH:mm')}">Date</td>
+        <td th:text="${b.session.hall}">Hall</td>
+        <td th:text="${b.seats}">2</td>
+        <td th:text="${b.totalPrice} + ' KZT'">3000 KZT</td>
+        <td><span class="status-confirmed" th:text="${b.status}">CONFIRMED</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+    <li><a th:href="@{/admin/sessions}">Sessions</a></li>
+    <li><a th:href="@{/admin/users}" style="color:var(--white)">Users</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>USERS</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Registered</th>
+        <th>Tickets Bought</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="u : ${users}">
+        <td th:text="${u.id}">1</td>
+        <td th:text="${u.username}">user</td>
+        <td th:text="${#temporals.format(u.createdAt, 'dd MMM yyyy HH:mm')}">date</td>
+        <td th:text="${bookingRepo.countByUserUsername(u.username)}">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

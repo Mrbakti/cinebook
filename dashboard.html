@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/admin/dashboard}" style="color:var(--white)">Dashboard</a></li>
+    <li><a th:href="@{/admin/sessions}">Sessions</a></li>
+    <li><a th:href="@{/admin/users}">Users</a></li>
+    <li><a th:href="@{/movies}">Movies</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>ADMIN PANEL</h2>
+    <a th:href="@{/admin/sessions}" class="btn btn-outline btn-sm">Manage Sessions</a>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number" th:text="${userCount}">0</div>
+      <div class="label">Total Users</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" th:text="${bookingCount}">0</div>
+      <div class="label">Total Bookings</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" th:text="${movieCount}">0</div>
+      <div class="label">Movies</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" th:text="${onlineCount}">0</div>
+      <div class="label">Online Now</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.5rem; margin-bottom:16px;">Recent Bookings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Movie</th>
+        <th>Seats</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="b : ${bookings}">
+        <td th:text="${b.id}">1</td>
+        <td th:text="${b.user.username}">user</td>
+        <td th:text="${b.session.movie.title}">Movie</td>
+        <td th:text="${b.seats}">2</td>
+        <td th:text="${b.totalPrice} + ' KZT'">3000</td>
+        <td><span class="status-confirmed" th:text="${b.status}">CONFIRMED</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

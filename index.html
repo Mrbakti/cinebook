@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/movies}">Movies</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/booking/my}">My Bookings</a></li>
+    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/dashboard}">Admin</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>BOOK YOUR<br><span>PERFECT SEAT</span></h1>
+  <p>Premium cinema experience in Astana</p>
+  <a th:href="@{/movies}" class="btn btn-primary">Browse Movies</a>
+  &nbsp;
+  <a sec:authorize="!isAuthenticated()" th:href="@{/register}" class="btn btn-outline">Register</a>
+</div>
+
+<div class="container">
+  <p style="color: var(--gray); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">Now Showing</p>
+  <!-- placeholder content shown on landing -->
+  <div style="text-align:center; padding: 40px 0; color: var(--gray);">
+    <p style="font-family: 'Bebas Neue', cursive; font-size: 3rem; color: var(--border);">Premium Films Daily</p>
+  </div>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Tickets - CineBook</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CINE<span>BOOK</span></a>
+  <ul>
+    <li><a th:href="@{/movies}">Movies</a></li>
+    <li><a th:href="@{/booking/my}">My Bookings</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h2>SELECT SESSION</h2>
+  </div>
+
+  <div class="sessions-list">
+    <div class="session-row" th:each="show : ${sessions}">
+      <div class="session-info">
+        <div>
+          <div class="session-time" th:text="${#temporals.format(show.startTime, 'HH:mm')}">18:00</div>
+          <div class="booking-meta" th:text="${#temporals.format(show.startTime, 'dd MMM yyyy')}">Date</div>
+        </div>
+        <div>
+          <div class="session-hall" th:text="${show.hall}">Hall 1</div>
+          <div class="session-seats" th:text="${show.availableSeats} + ' seats available'">50 seats</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap: 24px;">
+        <div class="session-price" th:text="${show.price} + ' KZT'">1500 KZT</div>
+        <form method="post" th:action="@{/booking/confirm}" style="display:flex; gap:12px; align-items:center;">
+          <input type="hidden" name="sessionId" th:value="${show.id}">
+          <div class="form-group" style="margin:0;">
+            <select name="seats" style="width:80px; padding: 10px;">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">Book</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(sessions)}" style="text-align:center; padding:60px; color:var(--gray);">
+    <p style="font-family:'Bebas Neue',cursive; font-size:2rem;">No sessions available</p>
+  </div>
+</div>
+
+<footer>CineBook 2024 -- All rights reserved</footer>
+</body>
+</html>

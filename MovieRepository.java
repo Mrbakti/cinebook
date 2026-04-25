@@ -1,0 +1,6 @@
+package kz.cinema.repository;
+
+import kz.cinema.model.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MovieRepository extends JpaRepository<Movie, Long> {}
